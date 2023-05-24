@@ -5,9 +5,12 @@ enum Status {
     CONFIRMED = 'confirmed',
     CANCELED = 'canceled',
     DELIVERED = 'delivered'
-  }
+}
 
-export class CreateOrderRequest {
+export class UpdateOrderRequest {
+    @IsNumber()
+    id: number;
+
     @IsNumber()
     userId: number;
 
@@ -17,5 +20,4 @@ export class CreateOrderRequest {
     @IsString()
     @IsEnum(Status)
     status: Status;
-
 }

@@ -1,8 +1,9 @@
 export class OrderCreatedEvent {
     constructor(
-        public readonly orderId: string,
-        public readonly userId: string,
-        public readonly price: number
+        public readonly orderId: number,
+        public readonly userId: number,
+        public readonly price: number,
+        public readonly status: string,
     ) {}
 
     toString() {
@@ -10,6 +11,7 @@ export class OrderCreatedEvent {
             orderId: this.orderId,
             userId: this.userId,
             price: this.price,
+            status: this.status,
         });
     }
 }
