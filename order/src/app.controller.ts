@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put , Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateOrderRequest } from './create-order-request.dto';
 import { UpdateOrderRequest } from './update-order-request.dto';
@@ -23,7 +23,8 @@ export class AppController {
   }
 
   @Put(':id')
-  async updateOrder(@Param('id') id: number, @Body() updateOrderRequest: UpdateOrderRequest) {
+  async updateOrder(@Param('id') id: number, @Body() updateOrderRequest: UpdateOrderRequest, @Query() query: any) {
+    console.log(`query: `, query);
     return await this.appService.updateOrder(id, updateOrderRequest);
   }
 

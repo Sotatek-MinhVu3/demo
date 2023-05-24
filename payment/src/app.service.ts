@@ -15,7 +15,7 @@ export class AppService {
       .send('get_user', new GetUserRequest(orderCreatedEvent.userId))
       .subscribe((user) => {
         console.log(
-          `Payment of user with stripe ID ${user?.stripeUserId} a price of ${orderCreatedEvent.price}`
+          `Payment of user with stripe ID ${user?.stripeId} with email ${user?.email} a price of ${orderCreatedEvent.price}`
         );
       });
   }
