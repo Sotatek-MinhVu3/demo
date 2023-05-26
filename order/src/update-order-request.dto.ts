@@ -8,8 +8,6 @@ enum Status {
 }
 
 export class UpdateOrderRequest {
-    @IsNumber()
-    id: number;
 
     @IsNumber()
     userId: number;

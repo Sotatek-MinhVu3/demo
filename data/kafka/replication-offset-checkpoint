@@ -1,5 +1,5 @@
 0
-53
+55
 __consumer_offsets 29 0
 __consumer_offsets 43 0
 __consumer_offsets 0 0
@@ -20,10 +20,11 @@ __consumer_offsets 49 0
 __consumer_offsets 3 0
 __consumer_offsets 40 0
 __consumer_offsets 27 0
-__consumer_offsets 17 3
+__consumer_offsets 17 50
 __consumer_offsets 32 0
-get_user.reply 0 9
+get_user.reply 0 34
 __consumer_offsets 39 0
+order_updated 0 5
 __consumer_offsets 2 0
 __consumer_offsets 12 0
 __consumer_offsets 44 0
@@ -31,11 +32,12 @@ __consumer_offsets 36 0
 __consumer_offsets 45 0
 __consumer_offsets 16 0
 __consumer_offsets 10 0
-__consumer_offsets 11 29
-get_user 0 9
+__consumer_offsets 11 55
+get_user 0 45
 __consumer_offsets 20 0
 __consumer_offsets 47 0
 __consumer_offsets 18 0
+order_deleted 0 6
 __consumer_offsets 7 0
 __consumer_offsets 48 0
 __consumer_offsets 22 0
@@ -47,9 +49,9 @@ __consumer_offsets 4 0
 __consumer_offsets 31 0
 __consumer_offsets 5 0
 __consumer_offsets 1 0
-__consumer_offsets 15 20
+__consumer_offsets 15 48
 __consumer_offsets 38 0
-order_created 0 9
+order_created 0 16
 __consumer_offsets 34 0
-__consumer_offsets 9 17
+__consumer_offsets 9 114
 __consumer_offsets 14 0

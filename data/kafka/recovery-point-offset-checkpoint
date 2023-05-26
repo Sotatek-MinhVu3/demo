@@ -1,5 +1,5 @@
 0
-53
+55
 __consumer_offsets 13 0
 __consumer_offsets 46 0
 __consumer_offsets 9 0
@@ -31,8 +31,10 @@ __consumer_offsets 4 0
 __consumer_offsets 33 0
 __consumer_offsets 15 0
 __consumer_offsets 48 0
-__consumer_offsets 11 4
+order_updated 0 0
+__consumer_offsets 11 0
 __consumer_offsets 44 0
+order_deleted 0 0
 __consumer_offsets 23 0
 __consumer_offsets 19 0
 __consumer_offsets 32 0

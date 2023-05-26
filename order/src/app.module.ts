@@ -24,6 +24,19 @@ import Order from './order.entity';
           },
         },
       },
+      {
+        name: 'AUTH_SERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: 'auth',
+            brokers: ['localhost:9092'],
+          },
+          consumer: {
+            groupId: 'auth-consumer',
+          },
+        },
+      },
     ]),
     ConfigModule.forRoot({
       envFilePath: '.env',

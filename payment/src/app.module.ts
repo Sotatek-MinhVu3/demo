@@ -11,21 +11,21 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: 
   [
-    ClientsModule.register([
-      {
-        name: 'AUTH_SERVICE',
-        transport: Transport.KAFKA,
-        options: {
-          client: {
-            clientId: 'auth',
-            brokers: ['localhost:9092'],
-          },
-          consumer: {
-            groupId: 'auth-consumer',
-          }
-        },
-      }
-    ]),
+    // ClientsModule.register([
+    //   {
+    //     name: 'AUTH_SERVICE',
+    //     transport: Transport.KAFKA,
+    //     options: {
+    //       client: {
+    //         clientId: 'auth',
+    //         brokers: ['localhost:9092'],
+    //       },
+    //       consumer: {
+    //         groupId: 'auth-consumer',
+    //       }
+    //     },
+    //   }
+    // ]),
     ConfigModule.forRoot({
       envFilePath: '.env',
       validationSchema: Joi.object({
