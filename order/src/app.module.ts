@@ -6,7 +6,11 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MailModule } from './mail/mail.module';
 import Order from './order.entity';
+import { BullModule } from '@nestjs/bull';
+import { EmailConsumer } from './email.consumer';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -39,6 +43,7 @@ import Order from './order.entity';
       },
     ]),
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: '.env',
       validationSchema: Joi.object({
         POSTGRES_HOST: Joi.string().required(),
@@ -49,10 +54,23 @@ import Order from './order.entity';
         PORT: Joi.number(),
       }),
     }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.registerQueue(
+      {
+        name: 'email',
+      },
+    ),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forFeature([Order]),
     DatabaseModule,
+    MailModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EmailConsumer],
 })
 export class AppModule {}
