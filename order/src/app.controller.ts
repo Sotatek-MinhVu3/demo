@@ -1,11 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Put , Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put , Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateOrderRequest } from './create-order-request.dto';
 import { UpdateOrderRequest } from './update-order-request.dto';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+
+    @Inject('AUTH_SERVICE')
+    private readonly authClient: ClientKafka,
+  ) {}
 
   @Get()
   getHello(): string {
@@ -23,14 +29,18 @@ export class AppController {
   }
 
   @Put(':id')
-  async updateOrder(@Param('id') id: number, @Body() updateOrderRequest: UpdateOrderRequest, @Query() query: any) {
-    console.log(`query: `, query);
+  async updateOrder(@Param('id') id: number, @Body() updateOrderRequest: UpdateOrderRequest) {
     return await this.appService.updateOrder(id, updateOrderRequest);
   }
 
   @Get(':id')
   async getOrder(@Param('id') id: number) {
     return await this.appService.getOrderById(id);
+  }
+
+  async onModuleInit() {
+    this.authClient.subscribeToResponseOf('get_user');
+    await this.authClient.connect();
   }
 
 }
