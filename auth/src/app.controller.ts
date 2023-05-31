@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { GetUserRequest } from './get-user-request.dto';
+import { GetUserRequest } from './dtos/get-user-request.dto';
 
 @Controller()
 export class AppController {

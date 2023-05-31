@@ -1,9 +1,9 @@
 import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientKafka, EventPattern } from '@nestjs/microservices';
-import { OrderCreatedEvent } from './order-created.event';
-import { OrderUpdatedEvent } from './order-updated.event';
-import { OrderDeletedEvent } from './order-deleted.event';
+import { OrderCreatedEvent } from './events/order-created.event';
+import { OrderUpdatedEvent } from './events/order-updated.event';
+import { OrderDeletedEvent } from './events/order-deleted.event';
 
 @Controller()
 export class AppController implements OnModuleInit {

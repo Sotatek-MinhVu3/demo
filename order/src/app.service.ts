@@ -1,18 +1,18 @@
 import { NotFoundException, Inject, Injectable } from '@nestjs/common';
-import { CreateOrderRequest } from './create-order-request.dto';
+import { CreateOrderRequest } from './dtos/create-order-request.dto';
 import { ClientKafka } from '@nestjs/microservices';
-import { OrderCreatedEvent } from './order-created.event';
+import { OrderCreatedEvent } from './events/order-created.event';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import Order from './order.entity';
-import { UpdateOrderRequest } from './update-order-request.dto';
-import { GetUserRequest } from './get-user-request.dto';
-import { OrderDeletedEvent } from './order-deleted.event';
-import { OrderUpdatedEvent } from './order-updated.event';
+import Order from './entities/order.entity';
+import { UpdateOrderRequest } from './dtos/update-order-request.dto';
+import { GetUserRequest } from './dtos/get-user-request.dto';
+import { OrderDeletedEvent } from './events/order-deleted.event';
+import { OrderUpdatedEvent } from './events/order-updated.event';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { DeleteOrderRequest } from './delete-order-request.dto';
+import { DeleteOrderRequest } from './dtos/delete-order-request.dto';
 
 enum Status {
   CREATED = 'created', 
