@@ -1,5 +1,5 @@
 import { Process, Processor } from "@nestjs/bull";
-import { MailService } from "./mail/mail.service";
+import { MailService } from "../mail/mail.service";
 import { Job } from "bull";
 
 @Processor('email')
