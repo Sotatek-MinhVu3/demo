@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put , Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateOrderRequest } from './create-order-request.dto';
-import { UpdateOrderRequest } from './update-order-request.dto';
+import { CreateOrderRequest } from './dtos/create-order-request.dto';
+import { UpdateOrderRequest } from './dtos/update-order-request.dto';
 import { ClientKafka } from '@nestjs/microservices';
 
 @Controller()

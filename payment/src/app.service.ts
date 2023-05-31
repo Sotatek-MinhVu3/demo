@@ -1,14 +1,14 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { OrderCreatedEvent } from './order-created.event';
+import { OrderCreatedEvent } from './events/order-created.event';
 import { ClientKafka } from '@nestjs/microservices';
-import { GetUserRequest } from './get-user-request.dto';
-import { OrderUpdatedEvent } from './order-updated.event';
+import { GetUserRequest } from './dtos/get-user-request.dto';
+import { OrderUpdatedEvent } from './events/order-updated.event';
 import { InjectRepository } from '@nestjs/typeorm';
-import Payment from './payment.entity';
+import Payment from './entities/payment.entity';
 import { Repository } from 'typeorm';
-import { UpdatePaymentRequest } from './update-payment-request.dto';
-import { OrderDeletedEvent } from './order-deleted.event';
-import { DeletePaymentRequest } from './delete-payment-request.dto';
+import { UpdatePaymentRequest } from './dtos/update-payment-request.dto';
+import { OrderDeletedEvent } from './events/order-deleted.event';
+import { DeletePaymentRequest } from './dtos/delete-payment-request.dto';
 
 @Injectable()
 export class AppService {

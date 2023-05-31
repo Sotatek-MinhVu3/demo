@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailModule } from './mail/mail.module';
-import Order from './order.entity';
+import Order from './entities/order.entity';
 import { BullModule } from '@nestjs/bull';
 import { EmailConsumer } from './email.consumer';
 import { ScheduleModule } from '@nestjs/schedule';
