@@ -54,10 +54,8 @@ export class AppService {
             `Payment of user with stripe ID ${user?.stripeId} with email ${user?.email} a price of ${createOrderDto.price}`
           );
           if(!user) {
-            console.log('aaa');
-            // return({
-            //   message: 'Order not found',
-            // });            
+            console.log('User not found'); 
+            return;          
           }
           const newOrder = this.orderRepository.create(createOrderDto);
           this.paymentClient.emit('order_created', new OrderCreatedEvent(newOrder.id, newOrder.userId, newOrder.price, newOrder.status));
@@ -126,7 +124,7 @@ export class AppService {
       });
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_HOUR)
   async handleCron() {
     const createdNumber = await this.orderRepository.count({
       where: {
