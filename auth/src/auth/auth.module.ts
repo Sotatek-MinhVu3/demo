@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import * as Joi from '@hapi/joi';
+import { AuthService } from './auth.service';
+import { DatabaseModule } from './../database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { PaymentModule } from './payment/payment.module';
+import * as Joi from '@hapi/joi';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './../entities/user.entity';
+import { AuthController } from './auth.controller';
 
 @Module({
-  imports: 
-  [
+  imports: [
+    DatabaseModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       validationSchema: Joi.object({
@@ -19,9 +21,9 @@ import { PaymentModule } from './payment/payment.module';
         PORT: Joi.number(),
       }),
     }),
-    PaymentModule,
+    TypeOrmModule.forFeature([User]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AuthController],
+  providers: [AuthService],
 })
-export class AppModule {}
+export class AuthModule {}

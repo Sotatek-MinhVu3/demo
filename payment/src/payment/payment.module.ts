@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { DatabaseModule } from './../database/database.module';
+import Payment from './../entities/payment.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from '@hapi/joi';
 import { ConfigModule } from '@nestjs/config';
-import { PaymentModule } from './payment/payment.module';
+import { PaymentService } from './payment.service';
+import { PaymentController } from './payment.controller';
 
 @Module({
   imports: 
@@ -19,9 +21,10 @@ import { PaymentModule } from './payment/payment.module';
         PORT: Joi.number(),
       }),
     }),
-    PaymentModule,
+    TypeOrmModule.forFeature([Payment]),
+    DatabaseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [PaymentController],
+  providers: [PaymentService],
 })
-export class AppModule {}
+export class PaymentModule {}
