@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put , Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateOrderRequest } from './dtos/create-order-request.dto';
 import { UpdateOrderRequest } from './dtos/update-order-request.dto';
@@ -18,7 +18,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post()
+  @Post('create')
   async createOrder(@Body() createOrderRequest: CreateOrderRequest) {
     return await this.appService.createOrder(createOrderRequest);
   }

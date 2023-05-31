@@ -6,7 +6,7 @@ import { OrderUpdatedEvent } from './events/order-updated.event';
 import { OrderDeletedEvent } from './events/order-deleted.event';
 
 @Controller()
-export class AppController implements OnModuleInit {
+export class AppController {
   constructor(
     private readonly appService: AppService,
 
@@ -34,7 +34,7 @@ export class AppController implements OnModuleInit {
     this.appService.handleOrderDeleted(orderDeletedEvent);
   }
 
-  onModuleInit() {
-    // this.authClient.subscribeToResponseOf('get_user');
-  }
+  // onModuleInit() {
+  //   this.authClient.subscribeToResponseOf('get_user');
+  // }
 }

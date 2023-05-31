@@ -1,4 +1,4 @@
-import { NotFoundException, Inject, Injectable } from '@nestjs/common';
+import { NotFoundException, Inject, Injectable, BadRequestException } from '@nestjs/common';
 import { CreateOrderRequest } from './dtos/create-order-request.dto';
 import { ClientKafka } from '@nestjs/microservices';
 import { OrderCreatedEvent } from './events/order-created.event';
@@ -47,27 +47,25 @@ export class AppService {
 
   async createOrder(createOrderDto: CreateOrderRequest) {
     
-    this.authClient
+    const user = await this.authClient
       .send('get_user', new GetUserRequest(createOrderDto.userId))
-      .subscribe(async (user) => {
-          console.log(
-            `Payment of user with stripe ID ${user?.stripeId} with email ${user?.email} a price of ${createOrderDto.price}`
-          );
-          if(!user) {
-            console.log('User not found'); 
-            return;          
-          }
-          const newOrder = this.orderRepository.create(createOrderDto);
-          this.paymentClient.emit('order_created', new OrderCreatedEvent(newOrder.id, newOrder.userId, newOrder.price, newOrder.status));
-          const orderCreated = await this.orderRepository.save(newOrder);
-          await this.queue.add('send-email', {
-            email: user?.email,
-            stripeId: user?.stripeId,
-            price: createOrderDto.price,
-            status: Status.CREATED,
-            time: new Date().toJSON().slice(0,19).replace('T',' '),
-          });
-      });
+      .toPromise();
+    if(!user) {
+      throw new BadRequestException('User not found!');        
+    }
+    const newOrder = this.orderRepository.create(createOrderDto);
+    this.paymentClient.emit('order_created', new OrderCreatedEvent(newOrder.id, newOrder.userId, newOrder.price, newOrder.status));
+    const orderCreated = await this.orderRepository.save(newOrder);
+    await this.queue.add('send-email', {
+      email: user?.email,
+      stripeId: user?.stripeId,
+      price: createOrderDto.price,
+      status: Status.CREATED,
+      time: new Date().toJSON().slice(0,19).replace('T',' '),
+    });
+    return {
+      message: 'Created successfully!'
+    }
     
   }
 
@@ -83,19 +81,21 @@ export class AppService {
         message: 'Order not found',
       });
     }
-    this.authClient
+    const user = await this.authClient
       .send('get_user', new GetUserRequest(updateOrderDto.userId))
-      .subscribe(async (user) => {
-        const updateOrder = await this.orderRepository.update(id, updateOrderDto);
-        this.paymentClient.emit('order_updated', new OrderUpdatedEvent(id, updateOrderDto.userId, updateOrderDto.price, updateOrderDto.status));
-        await this.queue.add('send-email', {
-          email: user?.email,
-          stripeId: user?.stripeId,
-          price: updateOrderDto.price,
-          status: updateOrderDto.status,
-          time: new Date().toJSON().slice(0,19).replace('T',' '),
-        });
-      });
+      .toPromise();
+    if(!user) {
+      throw new BadRequestException('User not found!');
+    }
+    const updateOrder = await this.orderRepository.update(id, updateOrderDto);
+    this.paymentClient.emit('order_updated', new OrderUpdatedEvent(id, updateOrderDto.userId, updateOrderDto.price, updateOrderDto.status));
+    await this.queue.add('send-email', {
+      email: user?.email,
+      stripeId: user?.stripeId,
+      price: updateOrderDto.price,
+      status: updateOrderDto.status,
+      time: new Date().toJSON().slice(0,19).replace('T',' '),
+    });
     return {
       message: 'Updated successfully!'
     }
@@ -108,20 +108,25 @@ export class AppService {
         message: 'Order not found',
       });
     }
-    this.authClient
+    const user = await this.authClient
       .send('get_user', new GetUserRequest(order.userId))
-      .subscribe(async (user) => {
-        await this.orderRepository.update(id, new DeleteOrderRequest(Status.CANCELED));
-        this.paymentClient.emit('order_deleted', new OrderDeletedEvent(id, order.userId, order.price, Status.CANCELED));
-        await this.orderRepository.softDelete(id);
-        await this.queue.add('send-email', {
-          email: user?.email,
-          stripeId: user?.stripeId,
-          price: order.price,
-          status: Status.CANCELED,
-          time: new Date().toJSON().slice(0,19).replace('T',' '),
-        });
-      });
+      .toPromise();
+    if(!user) {
+      throw new BadRequestException('User not found!');
+    }
+    await this.orderRepository.update(id, new DeleteOrderRequest(Status.CANCELED));
+    this.paymentClient.emit('order_deleted', new OrderDeletedEvent(id, order.userId, order.price, Status.CANCELED));
+    await this.orderRepository.softDelete(id);
+    await this.queue.add('send-email', {
+      email: user?.email,
+      stripeId: user?.stripeId,
+      price: order.price,
+      status: Status.CANCELED,
+      time: new Date().toJSON().slice(0,19).replace('T',' '),
+    });
+    return {
+      message: 'Deleted successfully!'
+    }
   }
 
   @Cron(CronExpression.EVERY_HOUR)
