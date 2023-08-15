@@ -1,5 +1,5 @@
 export class GetUserRequest {
     constructor (
-        public readonly userId: string
+        public readonly userId: number
     ) {}
 }
